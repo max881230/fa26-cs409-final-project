@@ -1,0 +1,12 @@
+{
+  "name": "cs409-job-application-helper",
+  "private": true,
+  "type": "module",
+  "workspaces": ["client"],
+  "scripts": {
+    "dev": "npm run dev --workspace client",
+    "build": "npm run build --workspace client",
+    "preview": "npm run preview --workspace client",
+    "test": "node --test tests/*.test.js"
+  }
+}
