@@ -9,25 +9,9 @@
 #cs409-job-ui .jh-user-menu .jh-btn {font-size:12px;padding:7px 10px;}
 #cs409-job-ui.jh-session-loading {display:grid;place-items:center;}
 #cs409-job-ui .jh-auth-top {justify-content:space-between;}
-#cs409-job-ui .jh-auth-main {flex:1;width:100%;max-width:1380px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:clamp(36px,7vw,120px);padding:clamp(36px,6vh,80px) clamp(0px,2vw,28px);}
-#cs409-job-ui .jh-auth-intro {max-width:650px;}
-#cs409-job-ui .jh-auth-intro .jh-eyebrow {margin-bottom:22px;}
-#cs409-job-ui .jh-auth-intro h1 {font-size:clamp(42px,5.5vw,78px);letter-spacing:-3px;line-height:1.06;}
-#cs409-job-ui .jh-auth-intro h1 span {background:var(--jh-mint);padding:0 12px 4px;border-radius:12px;}
-#cs409-job-ui .jh-auth-description {font-size:clamp(16px,1.5vw,20px);color:var(--jh-muted);line-height:1.7;margin:26px 0;}
-#cs409-job-ui .jh-auth-preview {max-width:500px;background:var(--jh-panel);border:1px solid var(--jh-line);border-radius:var(--jh-radius);padding:20px 24px;margin-top:32px;}
-#cs409-job-ui .jh-preview-heading {display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px;font-size:13px;flex-wrap:wrap;}
-#cs409-job-ui .jh-preview-event {display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--jh-line);}
-#cs409-job-ui .jh-preview-date {display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:44px;padding:7px 8px;border-radius:10px;background:var(--jh-soft);font-size:9px;letter-spacing:1px;font-weight:650;}
-#cs409-job-ui .jh-preview-date strong {font-size:20px;line-height:1.2;letter-spacing:-.5px;}
-#cs409-job-ui .jh-preview-event>div {display:flex;flex-direction:column;gap:3px;min-width:0;}
-#cs409-job-ui .jh-preview-event>div>span {font-size:12px;color:var(--jh-muted);}
-#cs409-job-ui .jh-preview-dot {width:10px;height:10px;border-radius:50%;background:var(--jh-purple);border:1px solid var(--jh-line);margin-left:auto;flex-shrink:0;}
-#cs409-job-ui .jh-preview-dot.is-deadline {background:var(--jh-yellow);}
-#cs409-job-ui .jh-auth-preview>p {font-size:11px;color:var(--jh-muted);margin-top:14px;letter-spacing:.4px;}
-#cs409-job-ui .jh-auth-card {width:100%;max-width:480px;justify-self:end;background:var(--jh-panel);border:2px solid var(--jh-ink);border-radius:20px;padding:clamp(22px,3vw,38px);box-shadow:6px 6px 0 var(--jh-shadow);}
-#cs409-job-ui .jh-auth-label {display:inline-block;font-size:10px;letter-spacing:1.6px;color:var(--jh-muted);font-weight:700;margin-bottom:12px;}
-#cs409-job-ui .jh-auth-card h2 {font-size:32px;letter-spacing:-1px;}
+#cs409-job-ui .jh-auth-main {flex:1;width:100%;max-width:480px;margin:0 auto;display:grid;align-items:center;padding:clamp(24px,6vh,64px) 0;}
+#cs409-job-ui .jh-auth-card {width:100%;background:var(--jh-panel);border:2px solid var(--jh-ink);border-radius:20px;padding:clamp(22px,3vw,38px);box-shadow:6px 6px 0 var(--jh-shadow);}
+#cs409-job-ui .jh-auth-card h1 {font-size:32px;letter-spacing:-1px;}
 #cs409-job-ui .jh-auth-card form {margin-top:26px;}
 #cs409-job-ui .jh-auth-card fieldset {border:0;padding:0;margin:0;min-width:0;}
 #cs409-job-ui .jh-auth-card .jh-field {font-size:13px;font-weight:600;gap:8px;}
@@ -39,38 +23,25 @@
 #cs409-job-ui .jh-password-input button {position:absolute;right:5px;top:5px;bottom:5px;padding:0 10px;border-radius:6px;font-size:12px;font-weight:600;color:var(--jh-muted);}
 #cs409-job-ui .jh-sign-in-button {width:100%;margin-top:26px;min-height:46px;font-size:14px;justify-content:space-between;padding:11px 16px;}
 #cs409-job-ui .jh-demo-credentials {margin-top:26px;background:var(--jh-soft);border:1px solid var(--jh-line);border-radius:11px;padding:16px;}
-#cs409-job-ui .jh-demo-credentials>div>strong {display:block;font-size:13px;margin-bottom:4px;}
-#cs409-job-ui .jh-demo-credentials>div>span {display:block;font-size:12px;color:var(--jh-muted);}
-#cs409-job-ui .jh-demo-credentials dl {display:flex;flex-wrap:wrap;gap:16px;margin:14px 0 8px;}
+#cs409-job-ui .jh-demo-credentials dl {display:flex;flex-wrap:wrap;gap:16px;margin:0 0 8px;}
 #cs409-job-ui .jh-demo-credentials dl>div {display:flex;gap:8px;align-items:center;}
 #cs409-job-ui .jh-demo-credentials dt {font-size:11px;color:var(--jh-muted);}
 #cs409-job-ui .jh-demo-credentials dd {margin:0;}
 #cs409-job-ui .jh-demo-credentials code {padding:3px 6px;background:var(--jh-panel);border:1px solid var(--jh-line);border-radius:5px;font-size:12px;}
 #cs409-job-ui .jh-demo-credentials .jh-link {font-size:12px;}
-#cs409-job-ui .jh-auth-footnote {font-size:11px;line-height:1.6;color:var(--jh-muted);margin-top:18px;}
 #cs409-job-ui .jh-auth-error {background:var(--jh-error-bg);color:var(--jh-error);border:1px solid var(--jh-error);border-radius:9px;padding:12px;margin-bottom:18px;font-size:13px;}
 #cs409-job-ui .jh-field-error {font-size:12px;color:var(--jh-error);margin-top:6px;}
 @media(max-width:1150px) {
   #cs409-job-ui .jh-nav {order:3;width:100%;margin-left:0;}
   #cs409-job-ui .jh-header-controls {margin-left:auto;}
 }
-@media(max-width:800px) {
-  #cs409-job-ui .jh-auth-main {grid-template-columns:minmax(0,1fr);gap:32px;max-width:540px;padding:36px 0;}
-  #cs409-job-ui .jh-auth-intro h1 {font-size:48px;letter-spacing:-2px;}
-  #cs409-job-ui .jh-auth-description {font-size:16px;margin:18px 0 0;}
-  #cs409-job-ui .jh-auth-preview {display:none;}
-  #cs409-job-ui .jh-auth-card {justify-self:stretch;max-width:none;}
-}
 @media(max-width:650px) {
   #cs409-job-ui .jh-header-controls {width:100%;justify-content:space-between;margin-left:0;gap:10px;}
   #cs409-job-ui .jh-user-menu {padding-left:10px;gap:6px;}
   #cs409-job-ui .jh-user-name {display:none;}
   #cs409-job-ui .jh-auth-top .jh-theme-control {margin-left:auto;}
-  #cs409-job-ui .jh-auth-top .jh-brand small {font-size:9px;letter-spacing:.7px;}
   #cs409-job-ui .jh-auth-top {gap:12px;padding:12px;}
-  #cs409-job-ui .jh-auth-intro .jh-eyebrow {font-size:9px;letter-spacing:1px;}
 }
 @media(max-width:380px) {
   #cs409-job-ui .jh-auth-top .jh-theme-control label {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
-  #cs409-job-ui .jh-auth-intro h1 {font-size:42px;}
 }
