@@ -1,3 +1,5 @@
+import { createDemoUpdates } from './updates.js';
+
 const companies = [
   ['Canva', 'https://www.lifeatcanva.com/en/', 'San Francisco · Hybrid'],
   ['Datadog', 'https://careers.datadoghq.com/all-jobs/', 'New York · On-site'],
@@ -19,14 +21,14 @@ const makeApplication = (job, stage, date = 'Nov 09') => ({ ...job, stage, notes
 
 export function createInitialWorkspace() {
   return {
-    version: 1,
-    review: 'pending',
+    version: 2,
+    updates: createDemoUpdates(),
     apps: [
       { ...makeApplication({ id: 'figma', company: 'Figma', role: 'Software Engineer Intern', applyUrl: companies[3][1] }, 'Applied', 'Nov 06'), notes: 'Review portfolio project and prepare questions for the team.' },
       { ...makeApplication({ id: 'notion', company: 'Notion', role: 'Frontend Engineer Intern', applyUrl: companies[4][1] }, 'Interviewing', 'Nov 03'), notes: 'Practice explaining the tradeoffs in our CS409 project.', history: [{ label: 'Recruiter screen confirmed', source: 'Nov 08 · Email update confirmed' }, { label: 'Application submitted', source: 'Nov 03 · Demo record' }] },
       { ...makeApplication({ id: 'stripe', company: 'Stripe', role: 'Software Engineer, New Grad', applyUrl: companies[5][1] }, 'Applied', 'Nov 04'), notes: 'Practice timed coding questions.' },
       makeApplication(jobs[2], 'Saved'),
-      ...jobs.slice(3).filter(job => !['figma', 'notion', 'stripe', 'linear'].includes(job.id)).slice(0, 8).map((job, index) => makeApplication(job, index % 3 === 0 ? 'Saved' : 'Applied')),
+      ...jobs.slice(3).filter(job => !['figma', 'notion', 'stripe', 'linear'].includes(job.id)).slice(0, 8).map((job, index) => makeApplication(job, index % 3 === 0 && job.id !== 'demo-job-8' ? 'Saved' : 'Applied')),
     ],
     events: [
       { id: 'notion-screen', app: 'notion', date: '2026-11-11', time: '10:00', kind: 'Interview', title: 'Recruiter screen' },

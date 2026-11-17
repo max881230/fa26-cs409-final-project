@@ -1,0 +1,18 @@
+:root {
+  color-scheme: light dark;
+  --jh-paper: light-dark(#faf6ee, #1c2025);
+  --jh-panel: light-dark(#ffffff, #252b32);
+  --jh-ink: light-dark(#20231f, #f3f4ed);
+  --jh-muted: light-dark(#62675e, #b2bdb2);
+  --jh-line: light-dark(#dedfd6, #48504d);
+  --jh-mint: light-dark(#a1e5c2, #285940);
+  --jh-purple: light-dark(#eee3ff, #4b365f);
+  --jh-blue: light-dark(#e3effb, #28465c);
+  --jh-yellow: light-dark(#ffedb1, #514823);
+  --jh-soft: light-dark(#f0f0e9, #333b3e);
+  --jh-error: light-dark(#9d2424, #ffb9b9);
+  --jh-error-bg: light-dark(#fff0ed, #42272b);
+  --jh-shadow: light-dark(#20231f, #0b1014);
+  --jh-radius: 16px;
+  --jh-offset: 3px;
+}

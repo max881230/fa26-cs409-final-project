@@ -1,10 +1,4 @@
 #cs409-job-ui {
-  --jh-paper: light-dark(#faf6ee,#1c2025); --jh-panel: light-dark(#ffffff,#252b32);
-  --jh-ink: light-dark(#20231f,#f3f4ed); --jh-muted: light-dark(#62675e,#b2bdb2);
-  --jh-line: light-dark(#dedfd6,#48504d); --jh-mint: light-dark(#a1e5c2,#285940);
-  --jh-purple: light-dark(#eee3ff,#4b365f); --jh-blue: light-dark(#e3effb,#28465c);
-  --jh-yellow: light-dark(#ffedb1,#514823); --jh-soft: light-dark(#f0f0e9,#333b3e);
-  --jh-radius: 16px; --jh-offset: 3px;
   font: 14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color: var(--jh-ink); background: var(--jh-paper); border-radius: 18px;
   padding: clamp(14px, 1.6vw, 28px); width: 100%; box-sizing: border-box;
@@ -119,7 +113,7 @@
 @media(pointer:coarse) {#cs409-job-ui button {min-height:44px;} #cs409-job-ui .jh-close {width:44px;} }
 @media(max-width:400px) {#cs409-job-ui .jh-status-edit {grid-template-columns:1fr;} #cs409-job-ui .jh-status-edit .jh-btn {justify-self:start;}}
 
-html:has(#cs409-job-ui),body:has(#cs409-job-ui) {background:light-dark(#faf6ee,#1c2025);}
+html:has(#cs409-job-ui),body:has(#cs409-job-ui) {background:var(--jh-paper);}
 /* Let content use the available desktop width; keep details readable. */
 #cs409-job-ui #jh-content {container-type:inline-size;}
 #cs409-job-ui .jh-row>div:first-child {min-width:0;}

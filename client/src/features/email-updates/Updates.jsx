@@ -1,16 +1,39 @@
 import React, { useRef, useState } from 'react';
-import { STAGES } from '@shared/workspace.js';
+import { pendingUpdates } from '@shared/workspace.js';
+import UpdateReview from './UpdateReview.jsx';
 
 export default function Updates({ state, onConfirm, onIgnore, onView, onDetails }) {
-  const [stage, setStage] = useState('Interviewing');
-  const [dateTime, setDateTime] = useState('2026-11-12T14:00');
-  const dateInput = useRef(null);
-  if (state.review !== 'pending') return <section className="jh-review"><span className="jh-badge">{state.review === 'accepted' ? 'Confirmed' : 'Ignored'}</span><h2>You’re all caught up.</h2><p className="jh-subtitle">{state.review === 'accepted' ? 'Figma’s status and interview event have been updated together.' : 'The suggestion was dismissed. Your application and calendar were kept as they were.'}</p><div className="jh-review-actions"><button className="jh-btn jh-btn-main" onClick={() => onView('calendar')}>Open calendar</button><button className="jh-btn" onClick={() => onDetails('figma')}>View Figma details</button></div></section>;
-  return <section className="jh-review">
-    <div className="jh-companyline"><h2>Figma · Interview invitation</h2><span className="jh-badge">Needs your review</span></div><p className="jh-subtitle">Matched application: Software Engineer Intern</p>
-    <div className="jh-email"><div className="jh-small"><strong>From</strong> recruiting@example.com <span className="jh-muted">· Sample email</span></div><blockquote>We’d like to invite you to a technical interview on November 12 at 2:00 PM Central Time.</blockquote></div>
-    <div className="jh-small jh-muted">Current stage: {state.apps.find(app => app.id === 'figma')?.stage} → Suggested stage: Interviewing</div>
-    <div className="jh-review-fields"><label className="jh-field">Confirm the stage<select value={stage} onChange={event => setStage(event.target.value)}>{STAGES.map(value => <option key={value}>{value}</option>)}</select></label><label className="jh-field">Technical interview · America/Chicago<input ref={dateInput} type="datetime-local" required value={dateTime} onChange={event => setDateTime(event.target.value)} /></label></div>
-    <p className="jh-subtitle">This suggestion has not changed your application or calendar.</p><div className="jh-review-actions"><button type="button" className="jh-btn jh-btn-main" onClick={() => { if (dateInput.current.reportValidity()) onConfirm(stage, dateTime); }}>Confirm update</button><button type="button" className="jh-btn jh-btn-quiet" onClick={onIgnore}>Ignore</button></div>
-  </section>;
+  const [selectedId, setSelectedId] = useState(() => pendingUpdates(state)[0]?.id || state.updates[0]?.id);
+  const [onlyPending, setOnlyPending] = useState(false);
+  const inboxRef = useRef(null);
+  const reviewRef = useRef(null);
+  const pending = pendingUpdates(state);
+  const selected = state.updates.find(update => update.id === selectedId) || state.updates[0];
+  const visible = onlyPending ? pending : state.updates;
+  const nextPending = pending.find(update => update.id !== selected?.id);
+  const select = id => {
+    setSelectedId(id);
+    if (window.matchMedia('(max-width: 850px)').matches) reviewRef.current?.scrollIntoView({ block: 'start' });
+  };
+
+  return <>
+    <p className="jh-demo-caption">Six fictional recruiting messages · Nothing changes until you confirm an update.</p>
+    <div className="jh-updates-layout">
+      <section ref={inboxRef} className="jh-inbox" aria-labelledby="inbox-title">
+        <div className="jh-inbox-heading"><h2 id="inbox-title">Your inbox</h2><span className="jh-badge">{pending.length} to review</span></div>
+        <div className="jh-inbox-filters" aria-label="Filter notifications"><button aria-pressed={!onlyPending} onClick={() => setOnlyPending(false)}>All updates <span>{state.updates.length}</span></button><button aria-pressed={onlyPending} onClick={() => setOnlyPending(true)}>Needs review <span>{pending.length}</span></button></div>
+        <div className="jh-notification-list">{visible.map(update => {
+          const app = state.apps.find(item => item.id === update.appId);
+          return <button key={update.id} className={'jh-notification' + (selected?.id === update.id ? ' is-selected' : '')} aria-current={selected?.id === update.id ? 'true' : undefined} aria-controls="update-review-panel" onClick={() => select(update.id)}>
+            <span className="jh-notification-heading"><strong>{app.company}</strong><span className={'jh-notification-status is-' + update.status}>{update.status === 'pending' ? 'Needs review' : update.status === 'accepted' ? 'Confirmed' : 'Ignored'}</span></span>
+            <span className="jh-notification-title">{update.title}</span><span className="jh-notification-time">{update.received}</span>
+          </button>;
+        })}{!visible.length && <p className="jh-empty">You’re all caught up. View All updates to revisit reviewed messages.</p>}</div>
+      </section>
+      <section ref={reviewRef} id="update-review-panel" aria-label="Selected notification">
+        <button className="jh-link jh-back-to-inbox" onClick={() => inboxRef.current?.scrollIntoView({ block: 'start' })}>← Back to inbox</button>
+        {selected ? <UpdateReview key={selected.id + ':' + selected.status} update={selected} app={state.apps.find(app => app.id === selected.appId)} onConfirm={onConfirm} onIgnore={onIgnore} onView={onView} onDetails={onDetails} hasNext={Boolean(nextPending)} onNext={() => select(nextPending.id)} /> : <p className="jh-empty">No notifications yet.</p>}
+      </section>
+    </div>
+  </>;
 }

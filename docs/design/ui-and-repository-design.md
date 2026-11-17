@@ -19,7 +19,7 @@ Discover a role → Save or apply → Review an email suggestion
 
 The current frontend is an interactive prototype using fictional opportunities,
 application records, and recruiting emails. Its data is stored in the browser.
-There is no backend, authentication, database, Gmail connection, live job feed,
+There is no backend, server authentication, database, Gmail connection, live job feed,
 Google Calendar synchronization, or delivered notification service yet.
 
 ## Information architecture
@@ -33,9 +33,11 @@ The application has four primary tabs:
 | Calendar | View recruiting events and open their associated application details |
 | Updates | Review suggested changes before applying them to the tracker and calendar |
 
-Applications is the default tab. The current tabs use React state rather than
+After demo sign-in, Applications is the default tab. The current tabs use React state rather than
 separate URL routes. Application details are shared by Applications and Calendar.
-Account settings and authentication screens are outside the current prototype.
+Demo sign-in and appearance controls are documented in
+[Authentication and appearance](authentication-and-appearance.md). Real account
+registration, recovery, and identity verification are outside the prototype.
 
 ## Discover
 
@@ -94,7 +96,7 @@ versions of the same application.
 
 ## Calendar
 
-- Show a month calendar and an upcoming agenda side by side on wide screens.
+- Show a month calendar and schedule side by side on wide screens.
 - Stack them on intermediate screens and use the agenda on small screens.
 - Use text labels as well as color to distinguish interviews and deadlines.
 - Allow multiple events per application.
@@ -102,16 +104,28 @@ versions of the same application.
 - Display the America/Chicago time zone for the current fixtures.
 - Keep date-only deadlines distinct from timed interview events.
 
-The calendar currently uses a fixed November 2026 evaluation dataset. Confirming
-an email suggestion adds its event to the same shared event collection.
+The calendar uses a fixed November 2026 dataset anchored to November 17. The
+schedule includes historical events, while application next steps skip dates
+before the demo date. Confirming an email suggestion adds or replaces its event
+in the same shared event collection.
 
 ## Updates
 
+The inbox contains six selectable messages: the original Figma invitation, plus
+Notion's final interview, Stripe's assessment extension, Linear's application
+confirmation, Canva's offer with a response deadline, and Datadog's rejection.
+Each message has an independent Pending, Confirmed, or Ignored review state.
+Navigation and Applications show the total pending count and matched-row badges.
+All updates and Needs review filters help users revisit messages. Desktop uses
+an inbox/review split; narrow screens stack both with a Back to inbox action.
+
 - Show the source email excerpt, associated application, current stage, suggested
-  stage, and proposed interview date and time.
+  stage, and proposed event date and time when applicable.
 - Let users edit the suggestion before choosing Confirm or Ignore.
 - Do not change the tracker or calendar merely because a suggestion exists.
-- Confirm changes the application stage and adds the event in one state transition.
+- Confirm changes only the matched application's stage and its optional event in
+  one state transition. Deadline extensions replace the matching event without
+  duplication; status-only messages leave the calendar unchanged.
 - Ignore dismisses the suggestion without changing application or event data.
 - Offer Undo while the confirmation or dismissal feedback is available.
 - Prevent a confirmed suggestion from being applied twice.
@@ -143,9 +157,11 @@ client/
   package.json                   Frontend dependencies and commands
   vite.config.js                 Build and shared-module configuration
   src/
-    app/                         Application shell and shared state
+    app/                         Providers, sign-in gate, and workspace state
     components/ui/               Reusable pagination and badges
     features/
+      auth/                      Demo sign-in, session, and sign-out
+      theme/                     Appearance provider and selector
       jobs/                      Discover and Apply confirmation
       applications/              Tracker, details, notes, and activity
       calendar/                  Month calendar and upcoming agenda
@@ -159,7 +175,7 @@ shared/
   pagination.js                  Page calculation and bounds
   workspace.js                   Shared application-state transitions
 tests/
-  workspace.test.js              Pagination, fixture, and transition checks
+  *.test.js                      Auth, theme, storage, dates, and state checks
 docs/
   design/                        Accepted English design documents
   heuristic-evaluation/          Shared evaluation tasks and findings
@@ -192,8 +208,8 @@ repository. Publication requires a new explicit request.
 
 ## Data and future integration boundary
 
-The frontend shares one application and event collection across tabs. Browser
-localStorage persists records between visits on the same origin. The pure
+The frontend shares application, event, and notification collections across tabs. Browser
+localStorage persists records per userId between visits on the same origin. The pure
 functions in `shared/workspace.js` enforce duplicate handling and review updates.
 
 The broader project direction remains React, a Node.js/Express REST API,

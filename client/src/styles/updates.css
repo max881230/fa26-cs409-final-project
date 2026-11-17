@@ -1,0 +1,31 @@
+#cs409-job-ui .jh-updates-layout {display:grid;grid-template-columns:minmax(270px,340px) minmax(0,1fr);gap:24px;align-items:start;}
+#cs409-job-ui .jh-updates-layout>* {min-width:0;}
+#cs409-job-ui .jh-inbox {background:var(--jh-panel);border:1px solid var(--jh-line);border-radius:var(--jh-radius);overflow:hidden;}
+#cs409-job-ui .jh-inbox-heading {display:flex;gap:10px;align-items:center;justify-content:space-between;padding:20px 18px 12px;}
+#cs409-job-ui .jh-inbox-heading h2 {font-size:17px;}
+#cs409-job-ui .jh-inbox-filters {display:flex;gap:6px;padding:0 18px 16px;border-bottom:1px solid var(--jh-line);}
+#cs409-job-ui .jh-inbox-filters button {border:1px solid var(--jh-line);border-radius:8px;padding:6px 9px;font-size:11px;}
+#cs409-job-ui .jh-inbox-filters button span {opacity:.75;margin-left:3px;}
+#cs409-job-ui .jh-inbox-filters button[aria-pressed="true"] {background:var(--jh-ink);color:var(--jh-panel);border-color:var(--jh-ink);}
+#cs409-job-ui .jh-notification {display:flex;flex-direction:column;gap:7px;width:100%;padding:18px;text-align:left;border-bottom:1px solid var(--jh-line);border-left:3px solid transparent;background:var(--jh-panel);cursor:pointer;}
+#cs409-job-ui .jh-notification:last-child {border-bottom:0;}
+#cs409-job-ui .jh-notification.is-selected {border-left-color:var(--jh-ink);background:color-mix(in srgb,var(--jh-mint) 25%,var(--jh-panel));}
+#cs409-job-ui .jh-notification:hover {background:color-mix(in srgb,var(--jh-soft) 65%,var(--jh-panel));}
+#cs409-job-ui .jh-notification:focus-visible {outline-offset:-4px;}
+#cs409-job-ui .jh-notification-heading {display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;}
+#cs409-job-ui .jh-notification-status {font-size:10px;color:var(--jh-muted);white-space:nowrap;}
+#cs409-job-ui .jh-notification-status.is-pending::before {content:'';display:inline-block;width:6px;height:6px;background:var(--jh-ink);border-radius:50%;margin-right:5px;}
+#cs409-job-ui .jh-notification-title {font-size:12px;line-height:1.5;}
+#cs409-job-ui .jh-notification-time {font-size:10px;color:var(--jh-muted);}
+#cs409-job-ui .jh-updates-layout .jh-review {padding:clamp(20px,2.5vw,34px);max-width:none;}
+#cs409-job-ui .jh-updates-layout .jh-review h2 {margin-top:14px;font-size:22px;line-height:1.4;}
+#cs409-job-ui .jh-updates-layout .jh-email {overflow-wrap:anywhere;}
+#cs409-job-ui .jh-updates-layout .jh-review-fields {margin-top:18px;}
+#cs409-job-ui .jh-update-result {font-size:14px;margin-top:20px;}
+#cs409-job-ui .jh-back-to-inbox {display:none;}
+@media(max-width:1000px) {#cs409-job-ui .jh-updates-layout .jh-review-fields {grid-template-columns:minmax(0,1fr);}}
+@media(max-width:850px) {
+  #cs409-job-ui .jh-updates-layout {grid-template-columns:minmax(0,1fr);gap:24px;}
+  #cs409-job-ui .jh-back-to-inbox {display:inline-block;margin-bottom:14px;}
+  #cs409-job-ui #update-review-panel {scroll-margin-top:16px;}
+}

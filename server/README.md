@@ -1,7 +1,8 @@
 # Backend (planned)
 
-The current project is a browser-local React prototype. No server, authentication,
-Gmail processing, API, or database is implemented here yet.
+The current project is a browser-local React prototype. Sign-in is simulated on
+the client with demo / demo. No server authentication, Gmail processing, API, or
+database is implemented here yet.
 
 Future Express implementation: organize `src/modules/` by applications, events,
 jobs, and email updates; put Gmail code in `src/integrations/gmail/` and PostgreSQL

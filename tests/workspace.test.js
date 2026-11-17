@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { paginate } from '../shared/pagination.js';
-import { trackJob, acceptUpdate } from '../shared/workspace.js';
+import { trackJob, acceptUpdate, ignoreUpdate, pendingUpdates } from '../shared/workspace.js';
 import { createInitialWorkspace, jobs } from '../client/src/mocks/fixtures.js';
 
 test('demo fixtures link existing applications to unique discovery positions', () => {
@@ -40,13 +40,55 @@ test('a second apply confirmation cannot reset an interview', () => {
   assert.equal(trackJob(state, state.apps.find(app => app.id === 'notion'), 'Applied'), state);
 });
 
-test('review acceptance updates stage and calendar atomically and is idempotent', () => {
+test('six demo messages match tracked applications and start pending', () => {
   const state = createInitialWorkspace();
-  const updated = acceptUpdate(state, 'Interviewing', '2026-11-12T15:00');
-  assert.equal(state.review, 'pending');
-  assert.equal(state.events.length, 3);
+  assert.equal(state.updates.length, 6);
+  assert.equal(new Set(state.updates.map(update => update.id)).size, 6);
+  assert.equal(pendingUpdates(state).length, 6);
+  for (const update of state.updates) assert.ok(state.apps.some(app => app.id === update.appId));
+});
+
+test('accepting one invitation updates only its application and event, once', () => {
+  const state = createInitialWorkspace();
+  const before = structuredClone(state);
+  const updated = acceptUpdate(state, 'figma-interview-invite', 'Interviewing', '2026-11-19T15:00');
+  assert.deepEqual(state, before);
+  assert.equal(pendingUpdates(updated).length, 5);
   assert.equal(updated.apps.find(app => app.id === 'figma').stage, 'Interviewing');
   assert.equal(updated.events.find(event => event.id === 'figma-interview').time, '15:00');
-  assert.equal(acceptUpdate(updated, 'Interviewing', '2026-11-12T15:00'), updated);
-  assert.equal(acceptUpdate(state, 'Interviewing', ''), state);
+  assert.equal(updated.events.length, state.events.length + 1);
+  assert.equal(updated.apps.find(app => app.id === 'stripe'), state.apps.find(app => app.id === 'stripe'));
+  assert.equal(acceptUpdate(updated, 'figma-interview-invite', 'Applied', '2026-11-19T16:00'), updated);
+  assert.equal(acceptUpdate(state, 'figma-interview-invite', 'Interviewing', ''), state);
+  assert.equal(acceptUpdate(state, 'figma-interview-invite', 'Interviewing', '2026-02-30T15:00'), state);
+  assert.equal(acceptUpdate(state, 'missing', 'Applied'), state);
+});
+
+test('deadline extensions replace an existing event without duplication', () => {
+  const state = createInitialWorkspace();
+  const updated = acceptUpdate(state, 'stripe-assessment-deadline', 'Applied', '2026-11-21T18:00');
+  assert.equal(updated.events.length, state.events.length);
+  assert.equal(updated.events.filter(event => event.id === 'stripe-oa').length, 1);
+  assert.equal(updated.events.find(event => event.id === 'stripe-oa').date, '2026-11-21');
+});
+
+test('status-only notifications never create calendar events', () => {
+  const state = createInitialWorkspace();
+  const received = acceptUpdate(state, 'linear-application-received', 'Applied');
+  const rejected = acceptUpdate(received, 'datadog-decision', 'Rejected');
+  assert.equal(rejected.events, state.events);
+  assert.equal(rejected.apps.find(app => app.id === 'linear').stage, 'Applied');
+  assert.equal(rejected.apps.find(app => app.id === 'demo-job-8').stage, 'Rejected');
+  assert.equal(pendingUpdates(rejected).length, 4);
+});
+
+test('ignoring affects one notification and leaves jobs and events unchanged', () => {
+  const state = createInitialWorkspace();
+  const ignored = ignoreUpdate(state, 'canva-offer');
+  assert.equal(ignored.apps, state.apps);
+  assert.equal(ignored.events, state.events);
+  assert.equal(pendingUpdates(ignored).length, 5);
+  assert.equal(ignored.updates.find(update => update.id === 'canva-offer').status, 'ignored');
+  assert.equal(ignoreUpdate(ignored, 'canva-offer'), ignored);
+  assert.equal(acceptUpdate(ignored, 'canva-offer', 'Offered', '2026-11-24T17:00'), ignored);
 });
