@@ -4,7 +4,7 @@ import { loadWorkspace, persistWorkspace, validWorkspace, workspaceKey, LEGACY_K
 import { createInitialWorkspace } from '../client/src/mocks/fixtures.js';
 import { DEMO_USER } from '../client/src/mocks/auth.js';
 import { memoryStorage, blockedStorage } from './helpers/memory-storage.js';
-import { acceptUpdate } from '../shared/workspace.js';
+import { acceptUpdate, setJobSkipped } from '../shared/workspace.js';
 
 function legacyWorkspace(review = 'pending') {
   const { apps, events } = createInitialWorkspace();
@@ -64,6 +64,28 @@ test('workspace keys separate identities and only the demo identity inherits ano
   persistWorkspace('second', second, storage);
   assert.equal(loadWorkspace('first', storage).apps[0].notes, 'First identity');
   assert.equal(loadWorkspace('second', storage).apps[0].notes, 'Second identity');
+});
+
+test('skipped roles persist per user without replacing older workspace data', () => {
+  const storage = memoryStorage();
+  const older = createInitialWorkspace();
+  delete older.skippedJobIds;
+  older.apps[0].notes = 'Preserve my notes.';
+  persistWorkspace('first', older, storage);
+  assert.deepEqual(loadWorkspace('first', storage), older);
+  const skipped = setJobSkipped(loadWorkspace('first', storage), 'figma', true);
+  persistWorkspace('first', skipped, storage);
+  assert.deepEqual(loadWorkspace('first', storage).skippedJobIds, ['figma']);
+  assert.equal(loadWorkspace('first', storage).apps[0].notes, 'Preserve my notes.');
+  assert.deepEqual(loadWorkspace('second', storage).skippedJobIds, []);
+  persistWorkspace('first', setJobSkipped(skipped, 'figma', false), storage);
+  assert.deepEqual(loadWorkspace('first', storage).skippedJobIds, []);
+});
+
+test('malformed skipped-role data fails workspace validation', () => {
+  for (const skippedJobIds of ['figma', null, [1], ['figma', 'figma']]) {
+    assert.equal(validWorkspace({ ...createInitialWorkspace(), skippedJobIds }), false);
+  }
 });
 
 test('invalid or blocked storage falls back safely without deleting the source', () => {

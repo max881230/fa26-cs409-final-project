@@ -6,6 +6,12 @@ html,body,#root {margin:0;padding:0;width:100%;min-width:0;background:var(--jh-p
 #cs409-job-ui .jh-mark {font-size:11px;font-weight:750;flex-shrink:0;}
 #cs409-job-ui .jh-nav {margin-left:auto;}
 #cs409-job-ui .jh-position-list {display:grid;gap:8px;}
+#cs409-job-ui .jh-searchbar {align-items:end;}
+#cs409-job-ui .jh-discover-filters {margin-bottom:14px;}
+#cs409-job-ui .jh-discover-filters summary {cursor:pointer;font-size:13px;font-weight:600;}
+#cs409-job-ui .jh-discover-filters summary:focus-visible {outline:3px solid var(--jh-ink);outline-offset:3px;}
+#cs409-job-ui .jh-discover-filter-fields {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:12px;}
+@media(max-width:1000px) {#cs409-job-ui .jh-discover-filter-fields {grid-template-columns:repeat(2,minmax(0,1fr));}}
 #cs409-job-ui .jh-column-head {padding:10px 16px;border:1px solid transparent;color:var(--jh-muted);font-size:12px;font-weight:700;letter-spacing:.35px;}
 #cs409-job-ui .jh-discover-columns {display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(240px,auto);gap:22px;align-items:center;}
 #cs409-job-ui .jh-application-columns {display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 80px;gap:20px;align-items:center;}
@@ -36,6 +42,7 @@ html,body,#root {margin:0;padding:0;width:100%;min-width:0;background:var(--jh-p
   #cs409-job-ui .jh-nav {margin-left:0;}
   #cs409-job-ui .jh-column-head {display:none;}
   #cs409-job-ui .jh-position-row {grid-template-columns:minmax(0,1fr);gap:12px;}
+  #cs409-job-ui .jh-discover-filter-fields {grid-template-columns:minmax(0,1fr);}
   #cs409-job-ui .jh-position-actions {justify-content:flex-start;}
   #cs409-job-ui .jh-notes {font-size:16px;}
 }

@@ -64,6 +64,12 @@ docs/                    Accepted English designs and evaluation tasks
 - Discover and Applications show at most 10 positions per page.
 - Discover shows each demo role's location and work arrangement (Remote, In person,
   or Hybrid); both are included in search.
+- Discover filters combine company, role, location, work arrangement, and job type.
+  Search matches words across all five fields. Clear filters resets the search
+  and field selections.
+- Skip hides a role from Browse and persists in the user's browser workspace.
+  The Skipped view supports the same filters and lets you restore roles. Skipping
+  a tracked role leaves its application, notes, and calendar events intact.
 - Searching/filtering resets pagination; empty and final pages are handled.
 - Save creates a Saved application. Apply opens a new tab, then asks whether the
   application was completed. Only **Yes, I applied** adds/updates Applied.

@@ -3,7 +3,7 @@ import Brand from '../components/ui/Brand.jsx';
 import ThemeControl from '../features/theme/ThemeControl.jsx';
 import UserMenu from '../features/auth/UserMenu.jsx';
 import { useAuth } from '../features/auth/AuthProvider.jsx';
-import { trackJob, acceptUpdate, ignoreUpdate as dismissUpdate, pendingUpdates } from '@shared/workspace.js';
+import { trackJob, acceptUpdate, ignoreUpdate as dismissUpdate, pendingUpdates, setJobSkipped } from '@shared/workspace.js';
 import { loadWorkspace, persistWorkspace } from '../lib/storage.js';
 import Discover from '../features/jobs/Discover.jsx';
 import ApplyDialog from '../features/jobs/ApplyDialog.jsx';
@@ -52,7 +52,7 @@ export default function Workspace() {
       {notice && <div id="jh-notice" role="status" aria-live="polite"><span>{notice}</span>{undo && <button className="jh-link" onClick={() => { setState(undo); setUndo(null); setNotice('Update undone.'); }}>Undo</button>}</div>}
       {!storageAvailable && <p role="status">Browser storage is unavailable. Changes are kept for this visit only.</p>}
       {!sessionPersisted && <p role="status" className="jh-demo-caption">Session storage is unavailable. Your demo sign-in lasts for this visit only.</p>}
-      <div hidden={view !== 'discover'}><Discover apps={state.apps} onSave={job => { setState(current => trackJob(current, job)); setUndo(null); setNotice(`${job.company} saved to Applications.`); }} onDetails={openDetails} onApply={beginApply} /></div>
+      <div hidden={view !== 'discover'}><Discover apps={state.apps} skippedJobIds={state.skippedJobIds} onSkip={(job, skipped) => { setState(current => setJobSkipped(current, job.id, skipped)); setUndo(null); setNotice(`${job.company} role ${skipped ? 'skipped' : 'restored'}.`); }} onSave={job => { setState(current => trackJob(current, job)); setUndo(null); setNotice(`${job.company} saved to Applications.`); }} onDetails={openDetails} onApply={beginApply} /></div>
       <div hidden={view !== 'applications'}><Applications state={state} selected={view === 'applications' ? selected : null} onSelect={setSelected} onView={navigate} onStage={changeStage} onNotes={saveNotes} /></div>
       {view === 'calendar' && <Calendar state={state} selected={selected} onSelect={setSelected} onStage={changeStage} onNotes={saveNotes} />}
       {view === 'updates' && <Updates state={state} onConfirm={confirmUpdate} onIgnore={ignoreUpdate} onView={navigate} onDetails={openDetails} />}
