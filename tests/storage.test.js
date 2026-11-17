@@ -4,6 +4,7 @@ import { loadWorkspace, persistWorkspace, validWorkspace, workspaceKey, LEGACY_K
 import { createInitialWorkspace } from '../client/src/mocks/fixtures.js';
 import { DEMO_USER } from '../client/src/mocks/auth.js';
 import { memoryStorage, blockedStorage } from './helpers/memory-storage.js';
+import { acceptUpdate } from '../shared/workspace.js';
 
 function legacyWorkspace(review = 'pending') {
   const { apps, events } = createInitialWorkspace();
@@ -33,6 +34,23 @@ test('current data is not overwritten by legacy migration', () => {
   current.apps[0].notes = 'Newer notes';
   const storage = memoryStorage({ [LEGACY_KEY]: JSON.stringify(legacyWorkspace()), [workspaceKey(DEMO_USER.id)]: JSON.stringify(current) });
   assert.deepEqual(loadWorkspace(DEMO_USER.id, storage), current);
+});
+
+test('event links persist and older workspaces without the new fields remain intact', () => {
+  const storage = memoryStorage();
+  const linked = acceptUpdate(createInitialWorkspace(), 'figma-interview-invite', 'Interviewing', '2026-11-19T14:00');
+  assert.equal(persistWorkspace(DEMO_USER.id, linked, storage), true);
+  assert.deepEqual(loadWorkspace(DEMO_USER.id, storage), linked);
+  assert.ok(loadWorkspace(DEMO_USER.id, storage).events.find(event => event.id === 'figma-interview').url);
+
+  const older = createInitialWorkspace();
+  older.apps[0].notes = 'Keep my existing notes.';
+  older.updates[0].status = 'ignored';
+  for (const app of older.apps) delete app.workArrangement;
+  for (const update of older.updates) if (update.event) delete update.event.url;
+  assert.ok(validWorkspace(older));
+  persistWorkspace(DEMO_USER.id, older, storage);
+  assert.deepEqual(loadWorkspace(DEMO_USER.id, storage), older);
 });
 
 test('workspace keys separate identities and only the demo identity inherits anonymous data', () => {

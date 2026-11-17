@@ -62,6 +62,8 @@ docs/                    Accepted English designs and evaluation tasks
 ## Prototype behavior
 
 - Discover and Applications show at most 10 positions per page.
+- Discover shows each demo role's location and work arrangement (Remote, In person,
+  or Hybrid); both are included in search.
 - Searching/filtering resets pagination; empty and final pages are handled.
 - Save creates a Saved application. Apply opens a new tab, then asks whether the
   application was completed. Only **Yes, I applied** adds/updates Applied.
@@ -72,6 +74,10 @@ docs/                    Accepted English designs and evaluation tasks
   with Undo.
 - Event suggestions update the tracker and calendar together. Deadline extensions
   replace their existing event; status-only messages do not create events.
+- Relevant links in sample email suggestions are saved with confirmed calendar
+  events and shown in the agenda and next-step details. Sample event links use
+  `example.com` placeholders. The month overview shows scheduled times in CT;
+  events without a time are labeled Date only.
 - Demo sessions use sessionStorage without storing a password. Sign-out clears
   selected details, unsaved drafts, pending dialogs, and Undo.
 - User-specific localStorage retains saved applications, notes, and notification

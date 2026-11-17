@@ -40,6 +40,18 @@ test('a second apply confirmation cannot reset an interview', () => {
   assert.equal(trackJob(state, state.apps.find(app => app.id === 'notion'), 'Applied'), state);
 });
 
+test('discovery roles carry location and work arrangement into the tracker', () => {
+  for (const job of jobs) {
+    assert.ok(job.location.trim());
+    assert.ok(['Remote', 'In person', 'Hybrid'].includes(job.workArrangement));
+  }
+  assert.deepEqual(new Set(jobs.map(job => job.workArrangement)), new Set(['Remote', 'In person', 'Hybrid']));
+  const state = trackJob(createInitialWorkspace(), jobs[0]);
+  const saved = state.apps.find(app => app.id === jobs[0].id);
+  assert.equal(saved.location, jobs[0].location);
+  assert.equal(saved.workArrangement, jobs[0].workArrangement);
+});
+
 test('six demo messages match tracked applications and start pending', () => {
   const state = createInitialWorkspace();
   assert.equal(state.updates.length, 6);
@@ -70,6 +82,32 @@ test('deadline extensions replace an existing event without duplication', () => 
   assert.equal(updated.events.length, state.events.length);
   assert.equal(updated.events.filter(event => event.id === 'stripe-oa').length, 1);
   assert.equal(updated.events.find(event => event.id === 'stripe-oa').date, '2026-11-21');
+});
+
+test('confirmed email links accompany interviews and replacement deadlines', () => {
+  for (const [id, stage, dateTime] of [
+    ['figma-interview-invite', 'Interviewing', '2026-11-19T15:00'],
+    ['stripe-assessment-deadline', 'Applied', '2026-11-21T18:00'],
+  ]) {
+    const state = createInitialWorkspace();
+    const suggestion = state.updates.find(update => update.id === id);
+    assert.ok(suggestion.excerpt.includes(suggestion.event.url));
+    const updated = acceptUpdate(state, id, stage, dateTime);
+    const event = updated.events.find(item => item.id === suggestion.event.id);
+    assert.equal(event.url, suggestion.event.url);
+    assert.equal(event.time, dateTime.slice(11));
+    assert.equal(updated.events.filter(item => item.id === event.id).length, 1);
+    assert.equal(acceptUpdate(updated, id, stage, dateTime), updated);
+    assert.equal(ignoreUpdate(state, id).events, state.events);
+    assert.notEqual(state.events.find(item => item.id === event.id)?.url, event.url);
+  }
+});
+
+test('email suggestions without links still confirm normally', () => {
+  const state = createInitialWorkspace();
+  const updated = acceptUpdate(state, 'notion-final-interview', 'Interviewing', '2026-11-20T11:00');
+  assert.equal(updated.events.find(event => event.id === 'notion-final').url, undefined);
+  assert.equal(updated.updates.find(update => update.id === 'notion-final-interview').status, 'accepted');
 });
 
 test('status-only notifications never create calendar events', () => {

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { STAGES } from '@shared/workspace.js';
+import EventLink from '../../components/ui/EventLink.jsx';
 
 export default function UpdateReview({ update, app, onConfirm, onIgnore, onView, onDetails, onNext, hasNext }) {
   const [stage, setStage] = useState(update.suggestedStage);
@@ -11,7 +12,7 @@ export default function UpdateReview({ update, app, onConfirm, onIgnore, onView,
     <div className="jh-companyline"><span className="jh-badge" data-stage={pending ? 'Applied' : update.status === 'accepted' ? 'Offered' : undefined}>{pending ? 'Needs your review' : update.status === 'accepted' ? 'Confirmed' : 'Ignored'}</span><span className="jh-small jh-muted">{update.received}</span></div>
     <h2 id="update-title">{app.company} · {update.title}</h2>
     <p className="jh-subtitle">Matched application: {app.role}</p>
-    <div className="jh-email"><div className="jh-small"><strong>From</strong> {update.from}<span className="jh-muted"> · Sample email</span></div><blockquote>{update.excerpt}</blockquote></div>
+    <div className="jh-email"><div className="jh-small"><strong>From</strong> {update.from}<span className="jh-muted"> · Sample email</span></div><blockquote>{update.excerpt}</blockquote>{update.event && <EventLink event={update.event} />}</div>
     {pending ? <form onSubmit={event => { event.preventDefault(); if (!update.event || dateInput.current.reportValidity()) onConfirm(update.id, stage, dateTime); }}>
       <p className="jh-small jh-muted">Current stage: {app.stage} → Suggested stage: {update.suggestedStage}</p>
       <div className="jh-review-fields">
