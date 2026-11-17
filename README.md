@@ -77,7 +77,7 @@ docs/                    Accepted English designs and evaluation tasks
 - Relevant links in sample email suggestions are saved with confirmed calendar
   events and shown in the agenda and next-step details. Sample event links use
   `example.com` placeholders. The month overview shows scheduled times in CT;
-  events without a time are labeled Date only.
+  events without a time show their title without a time label.
 - Demo sessions use sessionStorage without storing a password. Sign-out clears
   selected details, unsaved drafts, pending dialogs, and Undo.
 - User-specific localStorage retains saved applications, notes, and notification

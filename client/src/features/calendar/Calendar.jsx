@@ -9,7 +9,7 @@ export default function Calendar({ state, selected, onSelect, onStage, onNotes }
   const days = Array.from({ length: 42 }, (_, index) => {
     const date = new Date(Date.UTC(2026, 9, 26 + index));
     const iso = date.toISOString().slice(0, 10);
-    return <div key={iso} className={`jh-day${date.getUTCMonth() !== 10 ? ' is-outside' : ''}${iso === DEMO_TODAY ? ' is-demo-today' : ''}`}><span>{date.getUTCDate()}</span>{state.events.filter(event => event.date === iso).map(event => <button key={event.id} className="jh-event" data-kind={event.kind} onClick={() => onSelect(event.app)} aria-label={`${appFor(event.app)?.company} ${event.title} ${eventTime(event)}`}>{appFor(event.app)?.company}<br />{event.title}<small className="jh-event-time">{event.time ? `${event.time} CT` : 'Date only'}</small></button>)}</div>;
+    return <div key={iso} className={`jh-day${date.getUTCMonth() !== 10 ? ' is-outside' : ''}${iso === DEMO_TODAY ? ' is-demo-today' : ''}`}><span>{date.getUTCDate()}</span>{state.events.filter(event => event.date === iso).map(event => <button key={event.id} className="jh-event" data-kind={event.kind} onClick={() => onSelect(event.app)} aria-label={`${appFor(event.app)?.company} ${event.title} ${eventTime(event)}`}>{appFor(event.app)?.company}<br />{event.title}{event.time && <small className="jh-event-time">{event.time} CT</small>}</button>)}</div>;
   });
   return <div className={`jh-layout${app ? ' jh-has-detail' : ''}`}>
     <section id="jh-content" aria-label="Recruiting calendar"><div className="jh-calendar-layout">
