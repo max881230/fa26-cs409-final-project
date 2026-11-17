@@ -87,6 +87,9 @@ delivery yet. The client-only sign-in gate does not secure private resources.
 
 ## Documentation and demos
 
+See the [dependency advisory record](docs/dependency-advisories.md) for the current
+tooling advisory and the decision to defer remediation until an upstream patch.
+
 Use local npm commands for demos. Builds generate only `client/dist/`.
 External publishing workspaces and artifacts are managed outside this repository.
 `npm run preview` requires a preceding `npm run build` and is a local build
