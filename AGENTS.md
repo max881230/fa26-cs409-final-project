@@ -1,10 +1,5 @@
 # Repository conventions
 
-## Git workflow
-
-- Make changes on a feature branch and open a pull request targeting `master`.
-- Do not commit or push changes directly to `master`.
-
 ## Documentation
 
 - Write repository documentation, code comments, and product UI text in English.
