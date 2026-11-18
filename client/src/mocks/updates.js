@@ -4,9 +4,9 @@ export function createDemoUpdates() {
     {
       id: 'figma-interview-invite', appId: 'figma', title: 'Technical interview invitation',
       from: 'figma-recruiting@example.com', received: 'Nov 17 · 9:10 AM',
-      excerpt: 'We enjoyed reviewing your application. Join our engineering team for a technical interview on November 19 at 2:00 PM Central Time.',
+      excerpt: 'We enjoyed reviewing your application. Join our engineering team for a technical interview on November 19 at 2:00 PM Central Time. Interview link: https://example.com/demo/figma-interview',
       suggestedStage: 'Interviewing', status: 'pending',
-      event: { id: 'figma-interview', title: 'Technical interview', kind: 'Interview', date: '2026-11-19', time: '14:00' },
+      event: { id: 'figma-interview', title: 'Technical interview', kind: 'Interview', date: '2026-11-19', time: '14:00', url: 'https://example.com/demo/figma-interview' },
     },
     {
       id: 'notion-final-interview', appId: 'notion', title: 'Final interview invitation',
@@ -18,9 +18,9 @@ export function createDemoUpdates() {
     {
       id: 'stripe-assessment-deadline', appId: 'stripe', title: 'Assessment deadline extended',
       from: 'stripe-recruiting@example.com', received: 'Nov 16 · 4:20 PM',
-      excerpt: 'Your coding assessment deadline has been extended to November 21 at 6:00 PM Central Time. Your application remains under review.',
+      excerpt: 'Your coding assessment deadline has been extended to November 21 at 6:00 PM Central Time. Your application remains under review. Assessment link: https://example.com/demo/stripe-assessment',
       suggestedStage: 'Applied', status: 'pending',
-      event: { id: 'stripe-oa', title: 'OA due', kind: 'Deadline', date: '2026-11-21', time: '18:00' },
+      event: { id: 'stripe-oa', title: 'OA due', kind: 'Deadline', date: '2026-11-21', time: '18:00', url: 'https://example.com/demo/stripe-assessment' },
     },
     {
       id: 'linear-application-received', appId: 'linear', title: 'Application received',

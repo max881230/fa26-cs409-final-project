@@ -1,20 +1,20 @@
 import { createDemoUpdates } from './updates.js';
 
 const companies = [
-  ['Canva', 'https://www.lifeatcanva.com/en/', 'San Francisco · Hybrid'],
-  ['Datadog', 'https://careers.datadoghq.com/all-jobs/', 'New York · On-site'],
-  ['Linear', 'https://linear.app/careers', 'Remote · United States'],
-  ['Figma', 'https://www.figma.com/careers/', 'San Francisco · Hybrid'],
-  ['Notion', 'https://www.notion.com/careers', 'San Francisco · Hybrid'],
-  ['Stripe', 'https://stripe.com/careers/search', 'New York · Hybrid'],
+  ['Canva', 'https://www.lifeatcanva.com/en/', 'San Francisco, CA', 'Hybrid'],
+  ['Datadog', 'https://careers.datadoghq.com/all-jobs/', 'New York, NY', 'In person'],
+  ['Linear', 'https://linear.app/careers', 'United States', 'Remote'],
+  ['Figma', 'https://www.figma.com/careers/', 'San Francisco, CA', 'Hybrid'],
+  ['Notion', 'https://www.notion.com/careers', 'San Francisco, CA', 'Hybrid'],
+  ['Stripe', 'https://stripe.com/careers/search', 'New York, NY', 'Hybrid'],
 ];
 
 // Fictional opportunities for prototype testing, not a feed of live openings.
 export const jobs = Array.from({ length: 24 }, (_, index) => {
-  const [company, applyUrl, location] = companies[index % companies.length];
+  const [company, applyUrl, location, workArrangement] = companies[index % companies.length];
   const role = index === 7 ? 'Backend Engineer Intern' : index === 14 ? 'Full Stack Engineer' : index < 3 ? ['Frontend Engineer Intern', 'Software Engineer Intern', 'Product Engineer'][index] : ['Frontend Engineer Intern', 'Software Engineer Intern', 'Product Engineer', 'Software Engineer, New Grad'][Math.floor(index / companies.length)];
   const coreIds = { 2: 'linear', 4: 'notion', 9: 'figma', 23: 'stripe' };
-  return { id: coreIds[index] || `demo-job-${index + 1}`, company, role, applyUrl, location, type: index < 12 && index !== 2 ? 'Intern' : 'New Grad' };
+  return { id: coreIds[index] || `demo-job-${index + 1}`, company, role, applyUrl, location, workArrangement, type: index < 12 && index !== 2 ? 'Intern' : 'New Grad' };
 });
 
 const makeApplication = (job, stage, date = 'Nov 09') => ({ ...job, stage, notes: '', history: [{ label: stage === 'Saved' ? 'Saved for later' : 'Application submitted', source: `${date} · Demo record` }] });

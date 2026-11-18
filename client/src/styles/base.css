@@ -94,6 +94,8 @@
 #cs409-job-ui .jh-day.is-demo-today>span {background:var(--jh-ink);color:var(--jh-panel);padding:2px 5px;border-radius:6px;}
 #cs409-job-ui .jh-event {display:block;width:100%;text-align:left;background:var(--jh-purple);border-radius:6px;padding:7px;margin-top:5px;font-size:12px;line-height:1.4;overflow-wrap:anywhere;}
 #cs409-job-ui .jh-event[data-kind="Deadline"] {background:var(--jh-yellow);}
+#cs409-job-ui .jh-event-time {display:block;margin-top:3px;font-weight:700;}
+#cs409-job-ui .jh-email blockquote {overflow-wrap:anywhere;}
 #cs409-job-ui .jh-agenda {margin-top:0;padding:18px;border:1px solid var(--jh-line);border-radius:var(--jh-radius);background:var(--jh-panel);}
 #cs409-job-ui .jh-agenda h3 {margin-bottom:10px;}
 #cs409-job-ui .jh-agenda-entry {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--jh-line);}
