@@ -1,5 +1,11 @@
 export const STAGES = ['Saved', 'Applied', 'Interviewing', 'Offered', 'Rejected', 'Withdrawn'];
 
+export function setJobSkipped(state, jobId, skipped) {
+  const ids = state.skippedJobIds || [];
+  if (ids.includes(jobId) === skipped) return state;
+  return { ...state, skippedJobIds: skipped ? [...ids, jobId] : ids.filter(id => id !== jobId) };
+}
+
 export function trackJob(state, job, stage = 'Saved') {
   const existing = state.apps.find(app => app.id === job.id);
   if (existing) {

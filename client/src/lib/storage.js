@@ -16,6 +16,7 @@ const validEvent = event => event && text(event.id) && text(event.title) && ['In
 
 export function validWorkspace(value, version = 2) {
   if (!value || value.version !== version || !Array.isArray(value.apps) || !Array.isArray(value.events)) return false;
+  if (value.skippedJobIds !== undefined && (!Array.isArray(value.skippedJobIds) || !value.skippedJobIds.every(text) || new Set(value.skippedJobIds).size !== value.skippedJobIds.length)) return false;
   if (!value.apps.length || !value.apps.every(app => app && text(app.id) && text(app.company) && text(app.role) && text(app.notes) && STAGES.includes(app.stage) && Array.isArray(app.history) && app.history.every(item => item && text(item.label) && text(item.source))) || !unique(value.apps)) return false;
   const hasApp = id => value.apps.some(app => app.id === id);
   if (!value.events.every(event => validEvent(event) && hasApp(event.app)) || !unique(value.events)) return false;

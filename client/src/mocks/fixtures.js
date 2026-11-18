@@ -22,6 +22,7 @@ const makeApplication = (job, stage, date = 'Nov 09') => ({ ...job, stage, notes
 export function createInitialWorkspace() {
   return {
     version: 2,
+    skippedJobIds: [],
     updates: createDemoUpdates(),
     apps: [
       { ...makeApplication({ id: 'figma', company: 'Figma', role: 'Software Engineer Intern', applyUrl: companies[3][1] }, 'Applied', 'Nov 06'), notes: 'Review portfolio project and prepare questions for the team.' },
