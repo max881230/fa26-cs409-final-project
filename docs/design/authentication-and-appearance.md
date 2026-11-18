@@ -9,7 +9,7 @@ prototype UI and is not a security or authorization boundary.
 
 ## Sign-in and sign-out
 
-- Desktop pairs a product introduction with a form; mobile uses one column.
+- A single sign-in form is centered on desktop and uses the available width on mobile.
 - Required username and password fields have labels, autocomplete attributes,
   inline validation, password visibility, and Enter submission.
 - Incorrect credentials produce a focused, readable error. Submitting disables

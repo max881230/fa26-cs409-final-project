@@ -12,10 +12,10 @@ import Calendar from '../features/calendar/Calendar.jsx';
 import Updates from '../features/email-updates/Updates.jsx';
 
 const headings = {
-  applications: ['MY WORKSPACE', 'Your next move, organized.', 'Every application, with a clear next step.'],
-  discover: ['FIND YOUR NEXT ROLE', 'Less searching. More possibilities.', 'Save an opportunity, then track it through the whole journey.'],
-  calendar: ['MAKE TIME FOR WHAT’S NEXT', 'Your recruiting calendar.', 'Interviews and deadlines · November 2026 · America/Chicago'],
-  updates: ['YOU’RE IN CONTROL', 'New email. Clear next step.', 'Review suggested changes before they reach your tracker.'],
+  applications: ['Applications', 'Demo workspace · Sample applications saved in this browser.'],
+  discover: ['Discover', 'Demo listings · Apply opens company careers pages, not live listings.'],
+  calendar: ['Calendar', 'Demo calendar · November 2026 · America/Chicago.'],
+  updates: ['Updates', 'Demo inbox · Sample emails and event links; Gmail is not connected.'],
 };
 
 export default function Workspace() {
@@ -42,14 +42,14 @@ export default function Workspace() {
     const update = state.updates.find(item => item.id === id);
     const company = state.apps.find(app => app.id === update.appId)?.company;
     setUndo(state); setState(next);
-    setNotice(company + (update.event ? ' confirmed. The application and calendar are now in sync.' : ' confirmed. The application stage has been updated.'));
+    setNotice(company + ' update confirmed.');
   };
-  const ignoreUpdate = id => { const next = dismissUpdate(state, id); if (next === state) return; setUndo(state); setState(next); setNotice('Suggestion ignored. Application and calendar were kept as they were.'); };
-  const [eyebrow, title, subtitle] = headings[view];
+  const ignoreUpdate = id => { const next = dismissUpdate(state, id); if (next === state) return; setUndo(state); setState(next); setNotice('Update ignored.'); };
+  const [title, demoNotice] = headings[view];
   return <div id="cs409-job-ui" aria-label="Job Application Helper">
     <header className="jh-top"><Brand /><nav className="jh-nav" aria-label="Main navigation">{Object.keys(headings).sort((a, b) => ['discover', 'applications', 'calendar', 'updates'].indexOf(a) - ['discover', 'applications', 'calendar', 'updates'].indexOf(b)).map(key => <button key={key} aria-current={view === key ? 'page' : undefined} onClick={() => navigate(key)}>{key[0].toUpperCase() + key.slice(1)}{key === 'updates' && <> <span id="jh-update-count">{pendingUpdates(state).length}</span></>}</button>)}</nav><div className="jh-header-controls"><ThemeControl /><UserMenu /></div></header>
-    <main className="jh-workspace"><div className="jh-pagehead"><div><div className="jh-eyebrow">{eyebrow}</div><h1>{title}</h1><p className="jh-subtitle">{subtitle}</p></div>{view === 'applications' && <button className="jh-btn jh-btn-main" onClick={() => navigate('discover')}>+ Find a job</button>}</div>
-      {notice && <div id="jh-notice" role="status" aria-live="polite"><span>{notice}</span>{undo && <button className="jh-link" onClick={() => { setState(undo); setUndo(null); setNotice('Update undone. The suggestion is ready to review again.'); }}>Undo</button>}</div>}
+    <main className="jh-workspace"><div className="jh-pagehead"><div><h1>{title}</h1><p className="jh-subtitle">{demoNotice}</p></div></div>
+      {notice && <div id="jh-notice" role="status" aria-live="polite"><span>{notice}</span>{undo && <button className="jh-link" onClick={() => { setState(undo); setUndo(null); setNotice('Update undone.'); }}>Undo</button>}</div>}
       {!storageAvailable && <p role="status">Browser storage is unavailable. Changes are kept for this visit only.</p>}
       {!sessionPersisted && <p role="status" className="jh-demo-caption">Session storage is unavailable. Your demo sign-in lasts for this visit only.</p>}
       <div hidden={view !== 'discover'}><Discover apps={state.apps} onSave={job => { setState(current => trackJob(current, job)); setUndo(null); setNotice(`${job.company} saved to Applications.`); }} onDetails={openDetails} onApply={beginApply} /></div>
@@ -57,7 +57,6 @@ export default function Workspace() {
       {view === 'calendar' && <Calendar state={state} selected={selected} onSelect={setSelected} onStage={changeStage} onNotes={saveNotes} />}
       {view === 'updates' && <Updates state={state} onConfirm={confirmUpdate} onIgnore={ignoreUpdate} onView={navigate} onDetails={openDetails} />}
     </main>
-    <footer className="jh-footer"><span>Discover → Track → Review → Prepare</span><span>Gmail: demo connection · America/Chicago</span></footer>
     {pendingApply && <ApplyDialog job={pendingApply} onDismiss={() => setPendingApply(null)} onConfirm={() => { setState(current => trackJob(current, pendingApply, 'Applied')); setUndo(null); setNotice(`${pendingApply.company} is tracked in Applications.`); setPendingApply(null); }} />}
   </div>;
 }

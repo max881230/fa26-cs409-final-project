@@ -27,7 +27,7 @@ html,body,#root {margin:0;padding:0;width:100%;min-width:0;background:var(--jh-p
 #cs409-job-ui .jh-notes {display:block;box-sizing:border-box;width:100%;min-height:110px;margin-top:7px;border:1px solid var(--jh-line);border-radius:9px;background:var(--jh-panel);color:var(--jh-ink);padding:10px;font:inherit;resize:vertical;}
 #cs409-job-ui .jh-apply-dialog {width:min(520px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;box-sizing:border-box;padding:24px;background:var(--jh-panel);color:var(--jh-ink);border:2px solid var(--jh-ink);border-radius:var(--jh-radius);box-shadow:5px 5px 0 var(--jh-ink);}
 #cs409-job-ui .jh-apply-dialog::backdrop {background:color-mix(in srgb,var(--jh-ink) 35%,transparent);}
-#cs409-job-ui .jh-apply-dialog h2 {margin-bottom:10px;}
+#cs409-job-ui .jh-apply-dialog .jh-detail-top {margin-bottom:10px;}
 @media(max-width:1100px) {#cs409-job-ui .jh-discover-columns {grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) 160px;} #cs409-job-ui .jh-position-actions {align-items:stretch;}}
 @media(max-width:900px) {#cs409-job-ui .jh-layout.jh-has-detail>section {display:none;}}
 @media(max-width:650px) {
@@ -37,8 +37,6 @@ html,body,#root {margin:0;padding:0;width:100%;min-width:0;background:var(--jh-p
   #cs409-job-ui .jh-column-head {display:none;}
   #cs409-job-ui .jh-position-row {grid-template-columns:minmax(0,1fr);gap:12px;}
   #cs409-job-ui .jh-position-actions {justify-content:flex-start;}
-  #cs409-job-ui .jh-info-cell:before {content:'Info';font-size:11px;color:var(--jh-muted);font-weight:700;}
-  #cs409-job-ui .jh-application-columns .jh-info-cell:before {content:'Updates';}
   #cs409-job-ui .jh-notes {font-size:16px;}
 }
 @media(pointer:coarse) {#cs409-job-ui .jh-pagination button {min-width:44px;min-height:44px;}}

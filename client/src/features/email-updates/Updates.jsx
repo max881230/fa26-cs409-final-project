@@ -17,10 +17,9 @@ export default function Updates({ state, onConfirm, onIgnore, onView, onDetails 
   };
 
   return <>
-    <p className="jh-demo-caption">Six fictional recruiting messages · Nothing changes until you confirm an update.</p>
     <div className="jh-updates-layout">
       <section ref={inboxRef} className="jh-inbox" aria-labelledby="inbox-title">
-        <div className="jh-inbox-heading"><h2 id="inbox-title">Your inbox</h2><span className="jh-badge">{pending.length} to review</span></div>
+        <div className="jh-inbox-heading"><h2 id="inbox-title">Inbox</h2></div>
         <div className="jh-inbox-filters" aria-label="Filter notifications"><button aria-pressed={!onlyPending} onClick={() => setOnlyPending(false)}>All updates <span>{state.updates.length}</span></button><button aria-pressed={onlyPending} onClick={() => setOnlyPending(true)}>Needs review <span>{pending.length}</span></button></div>
         <div className="jh-notification-list">{visible.map(update => {
           const app = state.apps.find(item => item.id === update.appId);
@@ -28,7 +27,7 @@ export default function Updates({ state, onConfirm, onIgnore, onView, onDetails 
             <span className="jh-notification-heading"><strong>{app.company}</strong><span className={'jh-notification-status is-' + update.status}>{update.status === 'pending' ? 'Needs review' : update.status === 'accepted' ? 'Confirmed' : 'Ignored'}</span></span>
             <span className="jh-notification-title">{update.title}</span><span className="jh-notification-time">{update.received}</span>
           </button>;
-        })}{!visible.length && <p className="jh-empty">You’re all caught up. View All updates to revisit reviewed messages.</p>}</div>
+        })}{!visible.length && <p className="jh-empty">No updates to review.</p>}</div>
       </section>
       <section ref={reviewRef} id="update-review-panel" aria-label="Selected notification">
         <button className="jh-link jh-back-to-inbox" onClick={() => inboxRef.current?.scrollIntoView({ block: 'start' })}>← Back to inbox</button>

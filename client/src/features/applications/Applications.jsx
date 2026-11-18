@@ -20,17 +20,16 @@ export default function Applications({ state, selected, onSelect, onView, onStag
     else { setFilter('All'); setPage(Math.floor(state.apps.findIndex(item => item.id === selected) / 10) + 1); }
   }, [selected]);
   return <>
-    <div className="jh-summary"><div><strong>{state.apps.length}</strong><span>tracked</span></div><div><strong>{state.apps.filter(item => item.stage === 'Interviewing').length}</strong><span>interviewing</span></div><div><strong>{pending.length}</strong><span>to review</span></div></div>
-    {pending.length > 0 && <div className="jh-callout"><div><strong>{pending.length} recruiting {pending.length === 1 ? 'update needs' : 'updates need'} your review.</strong><p>Review suggested stages and dates before anything changes.</p></div><button className="jh-btn" onClick={() => onView('updates')}>Review updates →</button></div>}
+    <div className="jh-summary"><div><strong>{state.apps.length}</strong><span>tracked</span></div><div><strong>{state.apps.filter(item => item.stage === 'Interviewing').length}</strong><span>interviewing</span></div>{pending.length > 0 && <button className="jh-btn jh-btn-quiet" onClick={() => onView('updates')}>Review updates</button>}</div>
     <div className="jh-filterbar" aria-label="Filter applications">{['All', ...STAGES].map(value => <button key={value} aria-pressed={filter === value} onClick={() => { setFilter(value); setPage(1); onSelect(null); }}>{value}</button>)}</div>
     <div className={`jh-layout${app ? ' jh-has-detail' : ''}`}>
       <section id="jh-content" aria-label="Tracked positions">
-        <div className="jh-column-head jh-application-columns" aria-hidden="true"><span>Position</span><span>Updates</span><span>Actions</span></div>
+        <div className="jh-column-head jh-application-columns" aria-hidden="true"><span>Position</span><span>Next step</span><span>Actions</span></div>
         <div className="jh-position-list">{result.items.map(item => {
           const next = nextEvent(state.events, item.id);
           return <article key={item.id} className={`jh-position-row jh-application-columns${item.id === selected ? ' is-active' : ''}`} aria-label={`${item.company} ${item.role}`}>
             <div className="jh-position-cell"><div className="jh-companyline"><strong>{item.company}</strong><Badge stage={item.stage} /></div><span>{item.role}</span></div>
-            <div className="jh-info-cell"><span>{next?.title || 'No upcoming event'}</span><span className="jh-muted">{next ? eventTime(next) : item.history[0]?.source}</span>{pending.some(update => update.appId === item.id) && <span className="jh-badge">Update pending</span>}</div>
+            <div className="jh-info-cell"><span>{next?.title || 'No upcoming event'}</span>{next && <span className="jh-muted">{eventTime(next)}</span>}{pending.some(update => update.appId === item.id) && <span className="jh-badge">Update pending</span>}</div>
             <div className="jh-position-actions"><button className="jh-btn jh-btn-quiet" onClick={() => onSelect(item.id)} aria-label={`Details for ${item.company} ${item.role}`}>Details</button></div>
           </article>;
         })}{!result.total && <p className="jh-empty">No applications in this stage.</p>}</div>
